@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎄 Christmas Lottery</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>🎄 Christmas Lottery 🎁</h1>
+      <p class="subtitle">Who gives to whom this year?</p>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="example" role="tab">🦆 Example</button>
+      <button class="tab" data-tab="official" role="tab">🎲 Official draw</button>
+      <button class="tab" data-tab="previous" role="tab">📜 Previous years</button>
+    </nav>
+
+    <main>
+      <!-- Example tab ------------------------------------------------------- -->
+      <section id="tab-example" class="panel active" role="tabpanel">
+        <h2>Example draw</h2>
+        <p>
+          A safe demo using seven Donald Duck characters — nothing here is saved.
+          Press the button to see how the lottery works.
+        </p>
+        <button id="example-generate" class="btn">Generate example</button>
+        <ul id="example-result" class="result-list"></ul>
+      </section>
+
+      <!-- Official draw tab ------------------------------------------------- -->
+      <section id="tab-official" class="panel" role="tabpanel">
+        <h2>Official draw for <span id="official-year">…</span></h2>
+        <p>
+          This is the real draw. It follows every rule: nobody draws themselves,
+          forbidden pairs are excluded, and nobody repeats who they gave to last
+          year.
+        </p>
+
+        <div id="official-already" class="notice warning" hidden>
+          ⚠️ The <strong><span class="year-ref"></span></strong> draw already
+          exists. Running it again will create a <em>new</em> result you would
+          have to re-upload to replace it.
+        </div>
+
+        <label class="confirm-box">
+          <input type="checkbox" id="official-confirm-box" />
+          I understand this is the official
+          <strong><span class="year-ref"></span></strong> draw.
+        </label>
+
+        <button id="official-draw" class="btn btn-primary" disabled>
+          Run official draw
+        </button>
+
+        <div id="official-output" hidden>
+          <h3>Result for <span class="year-ref"></span></h3>
+          <ul id="official-result" class="result-list"></ul>
+
+          <div class="publish-steps">
+            <h3>Publish this result</h3>
+            <ol>
+              <li>
+                <button id="official-download" class="btn">
+                  ⬇️ Download results file
+                </button>
+              </li>
+              <li>
+                Go to the repository's <code>data/results.json</code> on
+                github.com and choose <em>Upload / replace file</em> with the file
+                you just downloaded.
+              </li>
+              <li>
+                Commit the change. GitHub Pages redeploys in a minute and everyone
+                sees the new result.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Previous years tab ------------------------------------------------ -->
+      <section id="tab-previous" class="panel" role="tabpanel">
+        <h2>Previous years</h2>
+        <label for="previous-year">Year:</label>
+        <select id="previous-year"></select>
+        <ul id="previous-result" class="result-list"></ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Made with ❤️ and 🎄 — served from GitHub Pages.</p>
+    </footer>
+
+    <script src="draw.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

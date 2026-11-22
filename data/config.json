@@ -1,0 +1,17 @@
+{
+  "participants": ["Nils", "Evan", "Tua", "Ulf", "Lennart", "Robin", "Anette"],
+  "forbiddenPairs": [
+    ["Tua", "Evan"],
+    ["Ulf", "Robin"],
+    ["Lennart", "Anette"]
+  ],
+  "duckCharacters": [
+    "Donald",
+    "Daisy",
+    "Scrooge",
+    "Huey",
+    "Dewey",
+    "Louie",
+    "Gladstone"
+  ]
+}
