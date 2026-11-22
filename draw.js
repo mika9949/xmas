@@ -45,12 +45,14 @@
    * @param {Object}   options
    * @param {Array<[string,string]>} [options.forbiddenUndirected]
    * @param {Object<string,string>}  [options.lastYearAssignment]
+   * @param {boolean}  [options.forbidMutual] disallow two-person loops (A->B & B->A).
    * @returns {Object<string,string>|null} giver->receiver map, or null if none exists.
    */
   function drawAssignment(people, options) {
     options = options || {};
     var forbidden = buildForbidden(options.forbiddenUndirected);
     var lastYear = options.lastYearAssignment || {};
+    var forbidMutual = !!options.forbidMutual;
 
     function allowed(giver, receiver) {
       if (giver === receiver) return false;
@@ -72,6 +74,8 @@
         var receiver = candidates[i];
         if (taken[receiver]) continue;
         if (!allowed(giver, receiver)) continue;
+        // No two-person loops: if the receiver already gives to this giver, skip.
+        if (forbidMutual && assignment[receiver] === giver) continue;
         taken[receiver] = true;
         assignment[giver] = receiver;
         if (backtrack(index + 1)) return true;
@@ -111,6 +115,7 @@
     options = options || {};
     var forbidden = buildForbidden(options.forbiddenUndirected);
     var lastYear = options.lastYearAssignment || {};
+    var forbidMutual = !!options.forbidMutual;
     var problems = [];
 
     var receivers = {};
@@ -126,6 +131,10 @@
       }
       if (lastYear[giver] === receiver) {
         problems.push("repeat of last year: " + giver + " -> " + receiver);
+      }
+      // Two-person loop: A gives to B and B gives to A (report once).
+      if (forbidMutual && assignment[receiver] === giver && giver < receiver) {
+        problems.push("two-person loop: " + giver + " <-> " + receiver);
       }
       receivers[receiver] = (receivers[receiver] || 0) + 1;
     });

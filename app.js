@@ -78,8 +78,10 @@
   function initExample() {
     $("example-generate").addEventListener("click", function () {
       var ducks = state.config.duckCharacters;
-      // Plain demo: a random derangement, no history or forbidden pairs.
-      var assignment = window.LotteryDraw.drawAssignment(ducks, {});
+      // Demo: a random derangement with no two-person loops (no other rules).
+      var assignment = window.LotteryDraw.drawAssignment(ducks, {
+        forbidMutual: true,
+      });
       if (assignment) {
         renderAssignment($("example-result"), assignment);
       } else {
@@ -127,6 +129,7 @@
         {
           forbiddenUndirected: state.config.forbiddenPairs,
           lastYearAssignment: previousYearAssignment(state.officialYear),
+          forbidMutual: true,
         }
       );
 

@@ -17,6 +17,7 @@ A valid draw assigns every person exactly one person to give to, such that:
    - Tua ↔ Evan
    - Ulf ↔ Robin
    - Lennart ↔ Anette
+4. **No two-person loops** — if A gives to B, then B may not give back to A.
 
 The official draw for a given year also cannot be run **before October 1 of that
 year** — the button stays locked until then.

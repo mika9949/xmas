@@ -91,6 +91,48 @@ check("returns null when no valid draw exists", function () {
   assert.strictEqual(a, null, "expected null for impossible 2-person case");
 });
 
+// With forbidMutual, no two people may give to each other (no two-person loops).
+check("forbidMutual produces no two-person loops", function () {
+  for (var i = 0; i < 1000; i++) {
+    var assignment = draw.drawAssignment(people, {
+      forbiddenUndirected: forbidden,
+      lastYearAssignment: lastYear,
+      forbidMutual: true,
+    });
+    assert(assignment !== null, "mutual-free draw #" + i + " returned null");
+
+    var problems = draw.validateAssignment(people, assignment, {
+      forbiddenUndirected: forbidden,
+      lastYearAssignment: lastYear,
+      forbidMutual: true,
+    });
+    assert.strictEqual(problems.length, 0, problems.join("; "));
+
+    // Belt and braces: explicitly confirm no A->B with B->A.
+    Object.keys(assignment).forEach(function (g) {
+      assert.notStrictEqual(
+        assignment[assignment[g]],
+        g,
+        "two-person loop between " + g + " and " + assignment[g]
+      );
+    });
+  }
+});
+
+// validateAssignment should flag a two-person loop when asked.
+check("validateAssignment flags a two-person loop", function () {
+  var bad = { A: "B", B: "A", C: "D", D: "C" };
+  var problems = draw.validateAssignment(["A", "B", "C", "D"], bad, {
+    forbidMutual: true,
+  });
+  assert(
+    problems.some(function (p) {
+      return p.indexOf("two-person loop") === 0;
+    }),
+    "expected a two-person-loop problem, got: " + problems.join("; ")
+  );
+});
+
 // chainOrder lists everyone once, grouped so each receiver leads into the next
 // row's giver — works whether the draw is one loop or several.
 check("chainOrder lists everyone once in loop order", function () {
