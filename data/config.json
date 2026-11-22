@@ -14,5 +14,10 @@
     "Louie",
     "Gladstone"
   ],
-  "duckForbiddenPairs": [["Daisy", "Donald"]]
+  "duckForbiddenPairs": [
+    ["Daisy", "Donald"],
+    ["Huey", "Dewey"],
+    ["Huey", "Louie"],
+    ["Dewey", "Louie"]
+  ]
 }
