@@ -96,22 +96,55 @@
 
           <div class="publish-steps">
             <h3>Publish this result</h3>
-            <ol>
-              <li>
-                <button id="official-download" class="btn">
-                  ⬇️ Download results file
-                </button>
-              </li>
-              <li>
-                Go to the repository's <code>data/results.json</code> on
-                github.com and choose <em>Upload / replace file</em> with the file
-                you just downloaded.
-              </li>
-              <li>
-                Commit the change. GitHub Pages redeploys in a minute and everyone
-                sees the new result.
-              </li>
-            </ol>
+            <p>
+              Publishing saves the result to the website so <strong>everyone</strong>
+              can see it. Until you do this, the draw only exists on this screen.
+            </p>
+
+            <label class="token-label">
+              GitHub token
+              <input
+                type="password"
+                id="official-token"
+                autocomplete="off"
+                placeholder="ghp_… (write access to the repo)"
+              />
+            </label>
+            <p class="token-hint">
+              Create a token at
+              <a
+                href="https://github.com/settings/tokens?type=beta"
+                target="_blank"
+                rel="noopener"
+                >github.com → Settings → Developer settings → Fine-grained tokens</a
+              >, with <strong>Contents: Read and write</strong> on the
+              <code>mika9949/xmas</code> repository. It stays only in your browser.
+            </p>
+
+            <button id="official-publish" class="btn btn-primary">
+              🚀 Publish to the website
+            </button>
+            <p id="official-publish-status" class="publish-status" hidden></p>
+
+            <details class="manual-publish">
+              <summary>Or publish manually (no token)</summary>
+              <ol>
+                <li>
+                  <button id="official-download" class="btn">
+                    ⬇️ Download results file
+                  </button>
+                </li>
+                <li>
+                  Go to the repository's <code>data/results.json</code> on
+                  github.com and choose <em>Upload / replace file</em> with the
+                  file you just downloaded.
+                </li>
+                <li>
+                  Commit the change. GitHub Pages redeploys in a minute and
+                  everyone sees the new result.
+                </li>
+              </ol>
+            </details>
           </div>
         </div>
       </section>

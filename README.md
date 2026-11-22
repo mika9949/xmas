@@ -43,15 +43,31 @@ Past results live in [`data/results.json`](data/results.json) (seeded with 2025)
 
 ## Publishing an official result
 
-GitHub Pages is static hosting, so the site can't save back to the repo on its
-own. After running the official draw:
+A drawn result only lives in the browser of the person who ran it until it is
+saved to the repo. There are two ways to publish it:
 
-1. Click **⬇️ Download results file** — this gives you a `results.json`
-   containing all previous years **plus** the new one.
+### One-click (recommended)
+
+1. Create a GitHub token: **Settings → Developer settings → Fine-grained tokens**,
+   with **Contents: Read and write** permission on the `mika9949/xmas`
+   repository.
+2. After running the official draw, paste the token into the **GitHub token**
+   field and press **🚀 Publish to the website**.
+3. The site commits the updated `data/results.json` for you. Everyone sees the
+   new result within a minute. The token stays only in your browser.
+
+### Manual (no token)
+
+Under *"Or publish manually"*:
+
+1. Click **⬇️ Download results file** — a `results.json` with all years plus the
+   new one.
 2. On github.com, open `data/results.json`, choose **Upload / replace file**, and
-   drop in the file you just downloaded.
-3. Commit the change. Pages redeploys within a minute and everyone sees the new
-   result in the **Previous years** tab.
+   drop in the downloaded file.
+3. Commit. Pages redeploys within a minute.
+
+> Note: the repo is public, so published results are public either way. A token
+> only grants whoever holds it write access — don't share it.
 
 ## First-time setup (enable the website)
 

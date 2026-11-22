@@ -55,6 +55,16 @@
     return state.results[String(year - 1)] || {};
   }
 
+  // All recorded results plus the freshly drawn official year, as a plain object.
+  function mergedResults() {
+    var merged = {};
+    years().forEach(function (y) {
+      merged[String(y)] = state.results[String(y)];
+    });
+    merged[String(state.officialYear)] = state.officialAssignment;
+    return merged;
+  }
+
   // --- tabs ----------------------------------------------------------------
 
   function initTabs() {
@@ -161,6 +171,7 @@
       }
 
       state.officialAssignment = assignment;
+      state.officialName = name;
       $("official-instigator").textContent = "🎅 Official draw run by " + name;
       renderAssignment($("official-result"), assignment);
       $("official-output").hidden = false;
@@ -168,13 +179,7 @@
 
     $("official-download").addEventListener("click", function () {
       if (!state.officialAssignment) return;
-      var merged = {};
-      years().forEach(function (y) {
-        merged[String(y)] = state.results[String(y)];
-      });
-      merged[String(state.officialYear)] = state.officialAssignment;
-
-      var blob = new Blob([JSON.stringify(merged, null, 2) + "\n"], {
+      var blob = new Blob([JSON.stringify(mergedResults(), null, 2) + "\n"], {
         type: "application/json",
       });
       var url = URL.createObjectURL(blob);
@@ -186,6 +191,102 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     });
+
+    $("official-publish").addEventListener("click", function () {
+      publishToRepo();
+    });
+  }
+
+  // --- one-click publish via the GitHub API --------------------------------
+
+  function setPublishStatus(message, kind) {
+    var el = $("official-publish-status");
+    el.hidden = false;
+    el.textContent = message;
+    el.className = "publish-status" + (kind ? " " + kind : "");
+  }
+
+  // Base64-encode a UTF-8 string (GitHub wants base64 file content).
+  function toBase64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  function publishToRepo() {
+    if (!state.officialAssignment) return;
+    var repo = state.config.repo;
+    if (!repo) {
+      setPublishStatus("No repository is configured for publishing.", "error");
+      return;
+    }
+    var token = $("official-token").value.trim();
+    if (!token) {
+      setPublishStatus("Please paste a GitHub token first.", "error");
+      return;
+    }
+
+    var apiBase =
+      "https://api.github.com/repos/" + repo.owner + "/" + repo.name;
+    var contentsUrl =
+      apiBase + "/contents/" + repo.path + "?ref=" + repo.branch;
+    var headers = {
+      Authorization: "Bearer " + token,
+      Accept: "application/vnd.github+json",
+    };
+
+    setPublishStatus("Publishing…", null);
+    $("official-publish").disabled = true;
+
+    // Fetch the current file's SHA (required to update it), then PUT the update.
+    fetch(contentsUrl, { headers: headers })
+      .then(function (r) {
+        if (r.status === 404) return { sha: undefined };
+        if (!r.ok) throw new Error("GitHub said " + r.status + " reading the file");
+        return r.json();
+      })
+      .then(function (meta) {
+        var body = {
+          message:
+            "Add " +
+            state.officialYear +
+            " lottery result (run by " +
+            (state.officialName || "unknown") +
+            ")",
+          content: toBase64(JSON.stringify(mergedResults(), null, 2) + "\n"),
+          branch: repo.branch,
+        };
+        if (meta.sha) body.sha = meta.sha;
+
+        return fetch(apiBase + "/contents/" + repo.path, {
+          method: "PUT",
+          headers: headers,
+          body: JSON.stringify(body),
+        });
+      })
+      .then(function (r) {
+        return r.json().then(function (data) {
+          return { ok: r.ok, status: r.status, data: data };
+        });
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          throw new Error(
+            (res.data && res.data.message) || "GitHub said " + res.status
+          );
+        }
+        // Reflect it locally so Previous years shows it right away.
+        state.results[String(state.officialYear)] = state.officialAssignment;
+        if (state.refreshPrevious) state.refreshPrevious();
+        setPublishStatus(
+          "✅ Published! Everyone will see the " +
+            state.officialYear +
+            " result within a minute (it's already in Previous years here).",
+          "success"
+        );
+      })
+      .catch(function (err) {
+        $("official-publish").disabled = false;
+        setPublishStatus("❌ Could not publish: " + err.message, "error");
+      });
   }
 
   // --- previous years tab --------------------------------------------------
@@ -203,19 +304,26 @@
       }
     }
 
-    var ys = years();
-    select.innerHTML = "";
-    ys.slice()
-      .reverse()
-      .forEach(function (y) {
-        var opt = document.createElement("option");
-        opt.value = String(y);
-        opt.textContent = String(y);
-        select.appendChild(opt);
-      });
+    function populate() {
+      var current = select.value;
+      select.innerHTML = "";
+      years()
+        .reverse()
+        .forEach(function (y) {
+          var opt = document.createElement("option");
+          opt.value = String(y);
+          opt.textContent = String(y);
+          select.appendChild(opt);
+        });
+      if (current) select.value = current;
+      render();
+    }
 
     select.addEventListener("change", render);
-    render();
+    populate();
+
+    // Let the publish flow refresh the list when a new year is added.
+    state.refreshPrevious = populate;
   }
 
   // --- bootstrap -----------------------------------------------------------

@@ -19,5 +19,11 @@
     ["Huey", "Dewey"],
     ["Huey", "Louie"],
     ["Dewey", "Louie"]
-  ]
+  ],
+  "repo": {
+    "owner": "mika9949",
+    "name": "xmas",
+    "branch": "main",
+    "path": "data/results.json"
+  }
 }

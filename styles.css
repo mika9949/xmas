@@ -246,6 +246,59 @@ main {
   margin: 0.6rem 0;
 }
 
+.token-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 600;
+  color: var(--dark-green);
+  margin: 0.8rem 0 0.4rem;
+}
+
+.token-label input {
+  font-size: 1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.token-hint {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0 0.9rem;
+}
+
+.publish-status {
+  margin: 0.8rem 0 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.publish-status.success {
+  background: #e3f5e9;
+  border: 1px solid var(--green);
+  color: var(--dark-green);
+}
+
+.publish-status.error {
+  background: #fde4e4;
+  border: 1px solid var(--dark-red);
+  color: var(--dark-red);
+}
+
+.manual-publish {
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.manual-publish summary {
+  cursor: pointer;
+  color: var(--dark-green);
+  font-weight: 600;
+}
+
 code {
   background: #f0ece4;
   padding: 0.1rem 0.35rem;
