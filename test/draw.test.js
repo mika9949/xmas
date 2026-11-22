@@ -91,33 +91,27 @@ check("returns null when no valid draw exists", function () {
   assert.strictEqual(a, null, "expected null for impossible 2-person case");
 });
 
-// drawCycle must always be ONE Hamiltonian cycle through everyone, and valid.
-check("drawCycle yields a single valid gift chain", function () {
-  for (var i = 0; i < 1000; i++) {
-    var assignment = draw.drawCycle(people, {
-      forbiddenUndirected: forbidden,
-      lastYearAssignment: lastYear,
-    });
-    assert(assignment !== null, "cycle draw #" + i + " returned null");
-
-    var problems = draw.validateAssignment(people, assignment, {
-      forbiddenUndirected: forbidden,
-      lastYearAssignment: lastYear,
-    });
-    assert.strictEqual(problems.length, 0, problems.join("; "));
-
-    // Follow the chain from one person — it must visit everyone before looping.
-    var order = draw.chainOrder(assignment);
-    assert.strictEqual(
-      order.length,
-      people.length,
-      "chain visited " + order.length + " of " + people.length
-    );
-    // Last row's receiver is the first row's giver.
-    assert.strictEqual(
-      assignment[order[order.length - 1]],
-      order[0],
-      "chain does not loop back to the first giver"
+// chainOrder lists everyone once, grouped so each receiver leads into the next
+// row's giver — works whether the draw is one loop or several.
+check("chainOrder lists everyone once in loop order", function () {
+  // Use the seeded 2025 result, which is two separate loops.
+  var order = draw.chainOrder(lastYear);
+  assert.deepStrictEqual(
+    order.slice().sort(),
+    people.slice().sort(),
+    "chainOrder must include everyone exactly once"
+  );
+  // Each adjacent pair within a loop connects; a receiver either starts the next
+  // row or closes its loop back to an earlier (already-listed) giver.
+  var seen = {};
+  for (var i = 0; i < order.length; i++) {
+    var giver = order[i];
+    var receiver = lastYear[giver];
+    seen[giver] = true;
+    var next = order[i + 1];
+    assert(
+      receiver === next || seen[receiver],
+      giver + " -> " + receiver + " neither continues nor closes a loop"
     );
   }
 });

@@ -78,8 +78,8 @@
   function initExample() {
     $("example-generate").addEventListener("click", function () {
       var ducks = state.config.duckCharacters;
-      // Plain demo: a single random gift chain, no history or forbidden pairs.
-      var assignment = window.LotteryDraw.drawCycle(ducks, {});
+      // Plain demo: a random derangement, no history or forbidden pairs.
+      var assignment = window.LotteryDraw.drawAssignment(ducks, {});
       if (assignment) {
         renderAssignment($("example-result"), assignment);
       } else {
@@ -122,7 +122,7 @@
       if (tooEarly || !box.checked) return;
       if (!window.confirm("Are you sure?")) return;
 
-      var assignment = window.LotteryDraw.drawCycle(
+      var assignment = window.LotteryDraw.drawAssignment(
         state.config.participants,
         {
           forbiddenUndirected: state.config.forbiddenPairs,

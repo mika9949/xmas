@@ -21,9 +21,9 @@ A valid draw assigns every person exactly one person to give to, such that:
 The official draw for a given year also cannot be run **before October 1 of that
 year** — the button stays locked until then.
 
-New draws form a **single gift chain**: one continuous loop through everyone, so
-each row's receiver is the next row's giver and the last row gives back to the
-first. Results are displayed in that chain order.
+Results are displayed in **loop order**: each row's receiver is the next row's
+giver. A draw may form one big loop or several smaller ones; each loop is listed
+in turn, and the last row of a loop gives back to that loop's first row.
 
 Participants and forbidden pairs live in [`data/config.json`](data/config.json).
 Past results live in [`data/results.json`](data/results.json) (seeded with 2025).

@@ -85,61 +85,9 @@
   }
 
   /**
-   * Like drawAssignment, but the result is always a SINGLE gift chain — one big
-   * loop through everyone (a Hamiltonian cycle), so the first giver is the person
-   * the last giver gives to. Returns giver->receiver map, or null if impossible.
-   */
-  function drawCycle(people, options) {
-    options = options || {};
-    var forbidden = buildForbidden(options.forbiddenUndirected);
-    var lastYear = options.lastYearAssignment || {};
-
-    function allowed(giver, receiver) {
-      if (giver === receiver) return false;
-      if (forbidden[giver] && forbidden[giver][receiver]) return false;
-      if (lastYear[giver] === receiver) return false;
-      return true;
-    }
-
-    var start = shuffle(people)[0];
-    var path = [start];
-    var used = {};
-    used[start] = true;
-
-    function backtrack() {
-      if (path.length === people.length) {
-        // Close the loop: the last giver must be allowed to give to the start.
-        return allowed(path[path.length - 1], start);
-      }
-      var current = path[path.length - 1];
-      var candidates = shuffle(people);
-      for (var i = 0; i < candidates.length; i++) {
-        var next = candidates[i];
-        if (used[next]) continue;
-        if (!allowed(current, next)) continue;
-        used[next] = true;
-        path.push(next);
-        if (backtrack()) return true;
-        path.pop();
-        used[next] = false;
-      }
-      return false;
-    }
-
-    if (!backtrack()) return null;
-
-    var assignment = {};
-    for (var i = 0; i < path.length; i++) {
-      assignment[path[i]] = path[(i + 1) % path.length];
-    }
-    return assignment;
-  }
-
-  /**
-   * Order givers by following the gift chain: each row's receiver is the next
-   * row's giver. For a single-cycle draw this produces one chain whose last row
-   * gives back to the first giver. Handles multi-cycle assignments too (older
-   * results) by listing each loop in turn.
+   * Order givers by following the gift loops: each row's receiver is the next
+   * row's giver. A draw may consist of one or several loops; each loop is listed
+   * in turn, and within a loop the last row gives back to that loop's first row.
    */
   function chainOrder(assignment) {
     var visited = {};
@@ -193,7 +141,6 @@
 
   var api = {
     drawAssignment: drawAssignment,
-    drawCycle: drawCycle,
     chainOrder: chainOrder,
     validateAssignment: validateAssignment,
     shuffle: shuffle,
