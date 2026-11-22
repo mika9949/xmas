@@ -165,6 +165,19 @@ main {
   color: var(--dark-red);
 }
 
+.latest-result {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.2rem;
+  background: var(--cream);
+  border: 2px solid var(--gold);
+  border-radius: 10px;
+}
+
+.latest-result h2 {
+  margin-top: 0;
+  color: var(--dark-green);
+}
+
 .rules {
   list-style: none;
   padding: 0.8rem 1rem;

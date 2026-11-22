@@ -123,6 +123,15 @@
       $("official-already").hidden = false;
     }
 
+    // Show the most recent published result at the top, until a new draw is run.
+    var recorded = years();
+    if (recorded.length) {
+      var latest = recorded[recorded.length - 1];
+      $("official-latest-year").textContent = latest;
+      renderAssignment($("official-latest-list"), state.results[String(latest)]);
+      $("official-latest").hidden = false;
+    }
+
     var box = $("official-confirm-box");
     var drawBtn = $("official-draw");
 
@@ -175,6 +184,8 @@
       $("official-instigator").textContent = "🎅 Official draw run by " + name;
       renderAssignment($("official-result"), assignment);
       $("official-output").hidden = false;
+      // A fresh draw replaces the previously-published result at the top.
+      $("official-latest").hidden = true;
     });
 
     $("official-download").addEventListener("click", function () {
