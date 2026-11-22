@@ -91,6 +91,37 @@ check("returns null when no valid draw exists", function () {
   assert.strictEqual(a, null, "expected null for impossible 2-person case");
 });
 
+// drawCycle must always be ONE Hamiltonian cycle through everyone, and valid.
+check("drawCycle yields a single valid gift chain", function () {
+  for (var i = 0; i < 1000; i++) {
+    var assignment = draw.drawCycle(people, {
+      forbiddenUndirected: forbidden,
+      lastYearAssignment: lastYear,
+    });
+    assert(assignment !== null, "cycle draw #" + i + " returned null");
+
+    var problems = draw.validateAssignment(people, assignment, {
+      forbiddenUndirected: forbidden,
+      lastYearAssignment: lastYear,
+    });
+    assert.strictEqual(problems.length, 0, problems.join("; "));
+
+    // Follow the chain from one person — it must visit everyone before looping.
+    var order = draw.chainOrder(assignment);
+    assert.strictEqual(
+      order.length,
+      people.length,
+      "chain visited " + order.length + " of " + people.length
+    );
+    // Last row's receiver is the first row's giver.
+    assert.strictEqual(
+      assignment[order[order.length - 1]],
+      order[0],
+      "chain does not loop back to the first giver"
+    );
+  }
+});
+
 // The seeded 2025 result itself should be a valid derangement with the pairs.
 check("seeded 2025 result is a valid derangement", function () {
   var problems = draw.validateAssignment(people, lastYear, {

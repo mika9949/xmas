@@ -23,7 +23,7 @@
 
   function renderAssignment(listEl, assignment) {
     listEl.innerHTML = "";
-    Object.keys(assignment).forEach(function (giver) {
+    window.LotteryDraw.chainOrder(assignment).forEach(function (giver) {
       var li = document.createElement("li");
       var g = document.createElement("span");
       g.className = "giver";
@@ -78,8 +78,8 @@
   function initExample() {
     $("example-generate").addEventListener("click", function () {
       var ducks = state.config.duckCharacters;
-      // Plain demo: a random derangement, no history or forbidden pairs.
-      var assignment = window.LotteryDraw.drawAssignment(ducks, {});
+      // Plain demo: a single random gift chain, no history or forbidden pairs.
+      var assignment = window.LotteryDraw.drawCycle(ducks, {});
       if (assignment) {
         renderAssignment($("example-result"), assignment);
       } else {
@@ -122,7 +122,7 @@
       if (tooEarly || !box.checked) return;
       if (!window.confirm("Are you sure?")) return;
 
-      var assignment = window.LotteryDraw.drawAssignment(
+      var assignment = window.LotteryDraw.drawCycle(
         state.config.participants,
         {
           forbiddenUndirected: state.config.forbiddenPairs,
