@@ -129,6 +129,17 @@
 
     drawBtn.addEventListener("click", function () {
       if (tooEarly || !box.checked) return;
+
+      var name = $("official-name").value.trim();
+      if (!name) {
+        window.alert("Please type your name before running the official draw.");
+        return;
+      }
+      if ($("official-password").value !== "pepper") {
+        window.alert("Wrong password.");
+        return;
+      }
+
       if (!window.confirm("Are you sure?")) return;
 
       var assignment = window.LotteryDraw.drawAssignment(
@@ -149,6 +160,7 @@
       }
 
       state.officialAssignment = assignment;
+      $("official-instigator").textContent = "🎅 Official draw run by " + name;
       renderAssignment($("official-result"), assignment);
       $("official-output").hidden = false;
     });

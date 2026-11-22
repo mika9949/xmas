@@ -33,9 +33,12 @@ Past results live in [`data/results.json`](data/results.json) (seeded with 2025)
 
 - **🦆 Example** — a safe demo using seven Donald Duck characters. Re-rollable,
   never saved.
-- **🎲 Official draw** — the real thing. Tick the confirmation box, press
-  **Run official draw**, confirm *"Are you sure?"*, and the result appears. The
-  target year is derived automatically as *(latest recorded year + 1)*.
+- **🎲 Official draw** — the real thing. Tick the confirmation box, type your
+  name and the password (**`pepper`**), press **Run official draw**, confirm
+  *"Are you sure?"*, and the result appears with the runner's name shown above it.
+  The target year is derived automatically as *(latest recorded year + 1)*.
+  (The password lives in the page's JavaScript, so it's a light speed-bump, not
+  real security.)
 - **📜 Previous years** — pick any recorded year to see its result.
 
 ## Publishing an official result

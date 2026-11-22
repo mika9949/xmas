@@ -191,6 +191,36 @@ main {
   border-radius: 8px;
 }
 
+.credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 0 1.2rem;
+}
+
+.credentials label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dark-green);
+  gap: 0.25rem;
+}
+
+.credentials input {
+  font-size: 1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.instigator {
+  margin: 0 0 0.6rem;
+  font-weight: 700;
+  color: var(--dark-red);
+}
+
 .notice {
   padding: 0.8rem 1rem;
   border-radius: 8px;

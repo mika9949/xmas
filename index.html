@@ -74,12 +74,24 @@
           <strong><span class="year-ref"></span></strong> draw.
         </label>
 
+        <div class="credentials">
+          <label>
+            Your name
+            <input type="text" id="official-name" autocomplete="off" />
+          </label>
+          <label>
+            Password
+            <input type="password" id="official-password" autocomplete="off" />
+          </label>
+        </div>
+
         <button id="official-draw" class="btn btn-primary" disabled>
           Run official draw
         </button>
 
         <div id="official-output" hidden>
           <h3>Result for <span class="year-ref"></span></h3>
+          <p id="official-instigator" class="instigator"></p>
           <ul id="official-result" class="result-list"></ul>
 
           <div class="publish-steps">
