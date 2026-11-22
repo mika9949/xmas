@@ -16,15 +16,23 @@ body {
   margin: 0;
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   color: var(--ink);
-  background: var(--cream)
-    repeating-linear-gradient(
-      45deg,
-      rgba(27, 115, 64, 0.04) 0,
-      rgba(27, 115, 64, 0.04) 20px,
-      transparent 20px,
-      transparent 40px
-    );
   line-height: 1.5;
+  background-color: #0a1636;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
+    radial-gradient(1.5px 1.5px at 130px 80px, #dfe8ff, transparent),
+    radial-gradient(1px 1px at 190px 140px, #ffffff, transparent),
+    radial-gradient(2px 2px at 90px 200px, #fff6d5, transparent),
+    radial-gradient(1px 1px at 260px 40px, #cfe0ff, transparent),
+    radial-gradient(1.5px 1.5px at 300px 170px, #ffffff, transparent),
+    radial-gradient(1px 1px at 60px 120px, #ffffff, transparent),
+    radial-gradient(2px 2px at 220px 230px, #fff6d5, transparent),
+    linear-gradient(180deg, #0a1636 0%, #122152 55%, #0a1636 100%);
+  background-repeat: repeat, repeat, repeat, repeat, repeat, repeat, repeat,
+    repeat, no-repeat;
+  background-size: 320px 260px, 320px 260px, 320px 260px, 320px 260px,
+    320px 260px, 320px 260px, 320px 260px, 320px 260px, cover;
+  background-attachment: fixed;
 }
 
 .site-header {
@@ -209,6 +217,6 @@ select {
 .site-footer {
   text-align: center;
   padding: 1.5rem 1rem;
-  color: var(--dark-green);
+  color: #cfe0ff;
   font-size: 0.9rem;
 }
