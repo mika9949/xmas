@@ -18,6 +18,9 @@ A valid draw assigns every person exactly one person to give to, such that:
    - Ulf ↔ Robin
    - Lennart ↔ Anette
 
+The official draw for a given year also cannot be run **before October 1 of that
+year** — the button stays locked until then.
+
 Participants and forbidden pairs live in [`data/config.json`](data/config.json).
 Past results live in [`data/results.json`](data/results.json) (seeded with 2025).
 

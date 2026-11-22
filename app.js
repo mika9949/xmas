@@ -106,12 +106,20 @@
     var box = $("official-confirm-box");
     var drawBtn = $("official-draw");
 
+    // The draw for a given year may not be run before October 1 of that year.
+    var earliest = new Date(state.officialYear, 9, 1); // month 9 = October
+    var tooEarly = new Date() < earliest;
+    if (tooEarly) {
+      $("official-tooearly").hidden = false;
+      box.disabled = true;
+    }
+
     box.addEventListener("change", function () {
       drawBtn.disabled = !box.checked;
     });
 
     drawBtn.addEventListener("click", function () {
-      if (!box.checked) return;
+      if (tooEarly || !box.checked) return;
       if (!window.confirm("Are you sure?")) return;
 
       var assignment = window.LotteryDraw.drawAssignment(
