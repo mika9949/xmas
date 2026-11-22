@@ -78,8 +78,9 @@
   function initExample() {
     $("example-generate").addEventListener("click", function () {
       var ducks = state.config.duckCharacters;
-      // Demo: a random derangement with no two-person loops (no other rules).
+      // Demo: a random derangement, no two-person loops, plus the duck forbidden pairs.
       var assignment = window.LotteryDraw.drawAssignment(ducks, {
+        forbiddenUndirected: state.config.duckForbiddenPairs || [],
         forbidMutual: true,
       });
       if (assignment) {

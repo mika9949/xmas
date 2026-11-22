@@ -13,5 +13,6 @@
     "Dewey",
     "Louie",
     "Gladstone"
-  ]
+  ],
+  "duckForbiddenPairs": [["Daisy", "Donald"]]
 }
