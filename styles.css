@@ -167,10 +167,8 @@ main {
 
 .latest-result {
   margin: 0 0 1.5rem;
-  padding: 1rem 1.2rem;
-  background: var(--cream);
-  border: 2px solid var(--gold);
-  border-radius: 10px;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gold);
 }
 
 .latest-result h2 {
