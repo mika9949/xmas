@@ -7,5 +7,14 @@
     "Robin": "Nils",
     "Anette": "Robin",
     "Lennart": "Tua"
+  },
+  "2026": {
+    "Lennart": "Robin",
+    "Ulf": "Nils",
+    "Evan": "Ulf",
+    "Tua": "Lennart",
+    "Robin": "Tua",
+    "Nils": "Anette",
+    "Anette": "Evan"
   }
 }
