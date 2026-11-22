@@ -33,11 +33,28 @@
       <!-- Official draw tab ------------------------------------------------- -->
       <section id="tab-official" class="panel" role="tabpanel">
         <h2>Official draw for <span id="official-year">…</span></h2>
-        <p>
-          This is the real draw. It follows every rule: nobody draws themselves,
-          forbidden pairs are excluded, and nobody repeats who they gave to last
-          year.
-        </p>
+        <p>This is the real draw. It always follows these rules:</p>
+
+        <ul class="rules">
+          <li>🙅 <strong>No giving to yourself.</strong></li>
+          <li>
+            🔁 <strong>No swaps.</strong> If you give to someone, they won't give
+            back to you (no loops of two).
+          </li>
+          <li>
+            🚫 <strong>Forbidden pairs</strong> never give to each other, either
+            direction: <span id="rules-forbidden"></span>.
+          </li>
+          <li>
+            📅 <strong>No repeat of last year.</strong> Nobody gives to the same
+            person they gave to last year.
+          </li>
+          <li>
+            ⏳ <strong>Timing.</strong> The
+            <strong><span class="year-ref"></span></strong> draw can't be run
+            before October 1, <span class="year-ref"></span>.
+          </li>
+        </ul>
 
         <div id="official-tooearly" class="notice warning" hidden>
           ⏳ The official <strong><span class="year-ref"></span></strong> draw

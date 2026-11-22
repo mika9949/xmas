@@ -101,6 +101,13 @@
       el.textContent = state.officialYear;
     });
 
+    // List the forbidden pairs straight from the config so it stays accurate.
+    $("rules-forbidden").textContent = state.config.forbiddenPairs
+      .map(function (pair) {
+        return pair[0] + " & " + pair[1];
+      })
+      .join(", ");
+
     if (state.results[String(state.officialYear)]) {
       $("official-already").hidden = false;
     }
